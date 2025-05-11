@@ -5,6 +5,8 @@ function Entry(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [edu, setEdu] = useState([""]);
+  const [prac, setPrac] = useState("");
 
   function submit(e) {
     const field = e.currentTarget.className;
@@ -15,8 +17,29 @@ function Entry(props) {
         return { ...prevData, email };
       } else if (field === "phone") {
         return { ...prevData, phone };
+      } else if (field === "edu") {
+        return { ...prevData, edu };
+      } else if (field === "prac") {
+        return { ...prevData, prac };
       }
     });
+  }
+
+  function renderEduInput(eduItem, index) {
+    return (
+      <input
+        key={index}
+        type="text"
+        value={eduItem}
+        onChange={(e) =>
+          setEdu((prevEdu) => {
+            let newEdu = prevEdu.slice();
+            newEdu[index] = e.target.value;
+            return newEdu;
+          })
+        }
+      />
+    );
   }
 
   return (
@@ -49,22 +72,25 @@ function Entry(props) {
       <button className="phone" onClick={submit}>
         Submit
       </button>
-      {/*<h1>Educational Experience</h1>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <button onClick={submit}>Submit</button>
-      <button>Add more</button>
+      <h1>Educational Experience</h1>
+      {edu.map(renderEduInput)}
+
+      <button className="edu" onClick={submit}>
+        Submit
+      </button>
+      <button onClick={() => setEdu((prevEdu) => [...prevEdu, ""])}>
+        Add more
+      </button>
       <h1>Practical Experience</h1>
       <input
         type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={prac}
+        onChange={(e) => setPrac(e.target.value)}
       />
-      <button onClick={submit}>Submit</button>
-      <button>Add more</button> */}
+      <button className="prac" onClick={submit}>
+        Submit
+      </button>
+      <button>Add more</button>
     </div>
   );
 }

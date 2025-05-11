@@ -13,10 +13,14 @@ function Cv(props) {
       <p className="phone">{props.data.phone}</p>
       <hr />
       <h1>Educational Experience</h1>
-      <p className="educational"></p>
+      <div className="educational">
+        {props.data.edu?.map((e, index) => (
+          <p key={index}>{e}</p>
+        ))}
+      </div>
       <hr />
       <h1>Practical Experience</h1>
-      <p className="practical"></p>
+      <p className="practical">{props.data.prac}</p>
     </div>
   );
 }
