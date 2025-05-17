@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Entry.css";
+import MultipleInputs from "./MultipleInputs";
 
 function Entry(props) {
   const [name, setName] = useState("");
@@ -25,46 +26,16 @@ function Entry(props) {
     });
   }
 
-  function submitEdu() {
-    let nonEmptyEdu = edu.filter((e) => e !== "");
-    setEdu(nonEmptyEdu);
+  function submitEdu(nonEmptyEdu) {
     props.setData((prevData) => {
       return { ...prevData, edu: nonEmptyEdu };
     });
   }
 
-  function renderEduInput(eduItem, index) {
-    return (
-      <input
-        key={index}
-        type="text"
-        value={eduItem}
-        onChange={(e) =>
-          setEdu((prevEdu) => {
-            let newEdu = prevEdu.slice();
-            newEdu[index] = e.target.value;
-            return newEdu;
-          })
-        }
-      />
-    );
-  }
-
-  function renderPracInput(pracItem, index) {
-    return (
-      <input
-        key={index}
-        type="text"
-        value={pracItem}
-        onChange={(e) =>
-          setPrac((prevPrac) => {
-            let newPrac = prevPrac.slice();
-            newPrac[index] = e.target.value;
-            return newPrac;
-          })
-        }
-      ></input>
-    );
+  function submitPrac(nonEmptyPrac) {
+    props.setData((prevData) => {
+      return { ...prevData, prac: nonEmptyPrac };
+    });
   }
 
   return (
@@ -98,22 +69,9 @@ function Entry(props) {
         Submit
       </button>
       <h1>Educational Experience</h1>
-      {edu.map(renderEduInput)}
-
-      <button className="edu" onClick={submitEdu}>
-        Submit
-      </button>
-      <button onClick={() => setEdu((prevEdu) => [...prevEdu, ""])}>
-        Add more
-      </button>
+      <MultipleInputs value={edu} setValue={setEdu} submit={submitEdu} />
       <h1>Practical Experience</h1>
-      {prac.map(renderPracInput)}
-      <button className="prac" onClick={submit}>
-        Submit
-      </button>
-      <button onClick={() => setPrac((prevPrac) => [...prevPrac, ""])}>
-        Add more
-      </button>
+      <MultipleInputs value={prac} setValue={setPrac} submit={submitPrac} />
     </div>
   );
 }
