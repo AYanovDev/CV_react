@@ -20,7 +20,11 @@ function Cv(props) {
       </div>
       <hr />
       <h1>Practical Experience</h1>
-      <p className="practical">{props.data.prac}</p>
+      <div className="practical">
+        {props.data.prac?.map((e, index) => (
+          <p key={index}>{e}</p>
+        ))}
+      </div>
     </div>
   );
 }

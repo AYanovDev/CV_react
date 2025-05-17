@@ -6,7 +6,7 @@ function Entry(props) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [edu, setEdu] = useState([""]);
-  const [prac, setPrac] = useState("");
+  const [prac, setPrac] = useState([""]);
 
   function submit(e) {
     const field = e.currentTarget.className;
@@ -25,6 +25,14 @@ function Entry(props) {
     });
   }
 
+  function submitEdu() {
+    let nonEmptyEdu = edu.filter((e) => e !== "");
+    setEdu(nonEmptyEdu);
+    props.setData((prevData) => {
+      return { ...prevData, edu: nonEmptyEdu };
+    });
+  }
+
   function renderEduInput(eduItem, index) {
     return (
       <input
@@ -39,6 +47,23 @@ function Entry(props) {
           })
         }
       />
+    );
+  }
+
+  function renderPracInput(pracItem, index) {
+    return (
+      <input
+        key={index}
+        type="text"
+        value={pracItem}
+        onChange={(e) =>
+          setPrac((prevPrac) => {
+            let newPrac = prevPrac.slice();
+            newPrac[index] = e.target.value;
+            return newPrac;
+          })
+        }
+      ></input>
     );
   }
 
@@ -75,22 +100,20 @@ function Entry(props) {
       <h1>Educational Experience</h1>
       {edu.map(renderEduInput)}
 
-      <button className="edu" onClick={submit}>
+      <button className="edu" onClick={submitEdu}>
         Submit
       </button>
       <button onClick={() => setEdu((prevEdu) => [...prevEdu, ""])}>
         Add more
       </button>
       <h1>Practical Experience</h1>
-      <input
-        type="text"
-        value={prac}
-        onChange={(e) => setPrac(e.target.value)}
-      />
+      {prac.map(renderPracInput)}
       <button className="prac" onClick={submit}>
         Submit
       </button>
-      <button>Add more</button>
+      <button onClick={() => setPrac((prevPrac) => [...prevPrac, ""])}>
+        Add more
+      </button>
     </div>
   );
 }
